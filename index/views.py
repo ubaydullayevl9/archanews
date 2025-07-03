@@ -1,31 +1,11 @@
-from django.shortcuts import render
-from .models import NewsCategory, News
-from .models import Favorite
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import NewsCategory, News, Favorite
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
 
-@login_required
-def add_favorite(request, pk):
-    news = News.objects.get(id=pk)
-    Favorite.objects.get_or_create(user=request.user, news=news)
-    return redirect('news_page', pk=pk)
-
-@login_required
-def remove_favorite(request, pk):
-    news = News.objects.get(id=pk)
-    Favorite.objects.filter(user=request.user, news=news).delete()
-    return redirect('news_page', pk=pk)
-
-@login_required
-def favorites_list(request):
-    favorites = News.objects.filter(favorite__user=request.user)
-    return render(request, 'favorites.html', {'favorites': favorites})
-
-# Create your views here.
+# Главная страница
 def home_page(request):
     news = News.objects.all()
     categories = NewsCategory.objects.all()
-
 
     context = {
         'news': news,
@@ -33,11 +13,10 @@ def home_page(request):
     }
     return render(request, 'home.html', context)
 
-
+# Страница категории
 def category_page(request, pk):
     category = NewsCategory.objects.get(id=pk)
     news = News.objects.filter(news_category=category)
-
 
     context = {
         'category': category,
@@ -45,13 +24,14 @@ def category_page(request, pk):
     }
     return render(request, 'category.html', context)
 
-
-
+# Страница отдельной новости
 def news_page(request, pk):
     news = News.objects.get(id=pk)
+
+    # Проверка, добавлено ли в избранное
     is_favorite = False
     if request.user.is_authenticated:
-        is_favorite = Favorite.objects.filter(news=news, user=request.user).exists()
+        is_favorite = news.favorite_set.filter(user=request.user).exists()
 
     context = {
         'news': news,
@@ -59,10 +39,23 @@ def news_page(request, pk):
     }
     return render(request, 'news.html', context)
 
-
+# Добавить новость в избранное
 @login_required
-def add_to_favorites(request, pk):
-    news = News.objects.get(id=pk)
+def add_favorite(request, pk):
+    news = get_object_or_404(News, pk=pk)
     Favorite.objects.get_or_create(user=request.user, news=news)
-    return redirect(f'/news/{pk}')
+    return redirect('news_page', pk=pk)
 
+# Удалить из избранного
+@login_required
+def remove_favorite(request, pk):
+    news = get_object_or_404(News, pk=pk)
+    Favorite.objects.filter(user=request.user, news=news).delete()
+    return redirect('news_page', pk=pk)
+
+# Страница избранного
+@login_required
+def favorites_page(request):
+    favorites = Favorite.objects.filter(user=request.user)
+    context = {'favorites': favorites}
+    return render(request, 'favorites.html', context)

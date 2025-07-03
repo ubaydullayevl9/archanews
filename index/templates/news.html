@@ -18,7 +18,7 @@
                 {% if is_favorite %}
                     <p>✅ Добавлено в избранное</p>
                 {% else %}
-                <form method="POST" action="{% url 'add_to_favorites' news.id %}">
+                <form method="POST" action="{% url 'add_favorite' news.id %}">
                 {% csrf_token %}
                     <button type="submit" class="btn btn-warning">Добавить в избранное</button>
                 </form>
