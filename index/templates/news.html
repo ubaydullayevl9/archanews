@@ -14,12 +14,17 @@
         {% if news.news_photo %}
         <img src="{{ news.news_photo.url }}" class="card-img-top" alt="Фото новости" style="width: 50%, height:200 px; object-fit: cover;">
         {% endif %}
-            {% if request.user.is_authenticated %}
-                {% if news.favorite_set.filter(user=request.user).exists %}
-                <a href="{% url 'remove_favorite' news.id %}" class="btn btn-danger">Убрать из избранного</a>
+            {% if user.is_authenticated %}
+                {% if is_favorite %}
+                    <p>✅ Добавлено в избранное</p>
                 {% else %}
-                <a href="{% url 'add_favorite' news.id %}" class="btn btn-warning">⭐ В избранное</a>
+                <form method="POST" action="{% url 'add_to_favorites' news.id %}">
+                {% csrf_token %}
+                    <button type="submit" class="btn btn-warning">Добавить в избранное</button>
+                </form>
                 {% endif %}
+            {% else %}
+                <p>🔒 Войдите в аккаунт, чтобы добавлять в избранное.</p>
             {% endif %}
         <div class="card-body">
             <h2 class="card-title">{{ news.name }}</h2>

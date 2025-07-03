@@ -33,7 +33,5 @@ class Favorite(models.Model):
     news = models.ForeignKey(News, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ['user', 'news']
-
-    def str(self):
-        return f"{self.user.username} → {self.news.name}"
+        unique_together = ('user', 'news')
+        # Чтобы один пользователь не мог добавить одну и ту же новость дважды

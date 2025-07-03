@@ -49,7 +49,20 @@ def category_page(request, pk):
 
 def news_page(request, pk):
     news = News.objects.get(id=pk)
+    is_favorite = False
+    if request.user.is_authenticated:
+        is_favorite = Favorite.objects.filter(news=news, user=request.user).exists()
 
-    context = {'news': news}
+    context = {
+        'news': news,
+        'is_favorite': is_favorite
+    }
     return render(request, 'news.html', context)
+
+
+@login_required
+def add_to_favorites(request, pk):
+    news = News.objects.get(id=pk)
+    Favorite.objects.get_or_create(user=request.user, news=news)
+    return redirect(f'/news/{pk}')
 
