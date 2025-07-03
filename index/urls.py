@@ -8,5 +8,6 @@ urlpatterns = [
     path('news/<int:pk>/add_favorite/', views.add_favorite, name='add_favorite'),
     path('news/<int:pk>/remove_favorite/', views.remove_favorite, name='remove_favorite'),
     path('favorites/', views.favorites_page, name='favorites_list'),
-    path('news/<int:pk>/add-favorite/', views.add_favorite, name='add_favorite'),
+    path('register', views.Register.as_view()),
+    path('logout', views.logout_view)
 ]

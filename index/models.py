@@ -29,9 +29,9 @@ class News(models.Model):
 from django.contrib.auth.models import User
 
 class Favorite(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    news = models.ForeignKey(News, on_delete=models.CASCADE)
-
     class Meta:
         unique_together = ('user', 'news')
         # Чтобы один пользователь не мог добавить одну и ту же новость дважды
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    news = models.ForeignKey(News, on_delete=models.CASCADE)
+
