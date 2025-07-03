@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     path('', views.home_page, name='home'),
     path('category/<int:pk>/', views.category_page, name='category'),
@@ -10,4 +11,5 @@ urlpatterns = [
     path('favorites/', views.favorites_page, name='favorites_list'),
     path('register', views.Register.as_view()),
     path('logout', views.logout_view)
+
 ]

@@ -8,7 +8,21 @@
 <body class="bg-dark text-white">
 
 <div class="container py-5">
-    <h1 class="text-center mb-4">📰 archanews | Главная</h1>
+
+    <!-- Навигация -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>📰 archanews</h1>
+        <div>
+            {% if user.is_authenticated %}
+                <a href="{% url 'favorites_list' %}" class="btn btn-warning">⭐️ Избранное</a>
+                <a href="{% url 'logout' %}" class="btn btn-danger">🔓 Выход</a>
+            {% else %}
+                <a href="/login" class="btn btn-primary">🔐 Вход</a>
+                <a href="/register" class="btn btn-success">📝 Регистрация</a>
+            {% endif %}
+        </div>
+    </div>
+
     <hr class="text-white">
 
     <h2 class="mb-3">📂 Категории</h2>
@@ -19,7 +33,7 @@
         </a>
         {% endfor %}
     </div>
-    <a href="{% url 'favorites_list' %}" class="btn btn-warning mb-4">⭐ Мои избранные</a>
+
     <h2 class="mb-3">🗞 Новости</h2>
     <div class="row g-4">
         {% for n in news %}
@@ -37,7 +51,7 @@
         </div>
         {% endfor %}
     </div>
-</div>
 
+</div>
 </body>
 </html>
