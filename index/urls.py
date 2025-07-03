@@ -7,6 +7,6 @@ urlpatterns = [
     path('news/<int:pk>/', views.news_page, name='news_page'),
     path('news/<int:pk>/add_favorite/', views.add_favorite, name='add_favorite'),
     path('news/<int:pk>/remove_favorite/', views.remove_favorite, name='remove_favorite'),
-    path('favorites/', views.favorites_page, name='favorites'),
+    path('favorites/', views.favorites_page, name='favorites_list'),
     path('news/<int:pk>/add-favorite/', views.add_favorite, name='add_favorite'),
 ]
