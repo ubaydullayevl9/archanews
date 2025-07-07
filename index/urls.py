@@ -11,6 +11,6 @@ urlpatterns = [
     path('news/<int:pk>/remove_favorite/', views.remove_favorite, name='remove_favorite'),
     path('favorites/', views.favorites_page, name='favorites_list'),
     path('register', views.Register.as_view()),
-    path('logout', views.logout_view)
+    path('logout/', views.logout_view)
 
 ]

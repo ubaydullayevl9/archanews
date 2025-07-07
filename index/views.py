@@ -6,6 +6,11 @@ from django.views import View
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 
+# Выход из аккаунта
+def logout_view(request):
+    logout(request)
+    return redirect('/')
+
 
 # Главная страница
 def home_page(request):
@@ -90,9 +95,6 @@ class Register(View):
             return redirect('/')
 
 
-# Выход из аккаунта
-def logout_view(request):
-    logout(request)
-    return redirect('/')
+
 
 
